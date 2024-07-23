@@ -14,10 +14,9 @@ jobs:
           uses: actions/github-script@v6
           with:
             script: |
-              const { context, github } = require('@actions/github');
-              const pr = context.payload.pull_request;
-              const owner = context.repo.owner;
-              const repo = context.repo.repo;
+              const pr = github.context.payload.pull_request;
+              const owner = github.context.repo.owner;
+              const repo = github.context.repo.repo;
   
               // Check if there are no reviewers and no assignees
               if (pr.requested_reviewers.length === 0 && pr.assignees.length === 0) {
@@ -28,6 +27,7 @@ jobs:
                   labels: ['Review Needed']
                 });
               }
+
 
     mark-submissions:
         runs-on: ubuntu-latest
