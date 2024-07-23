@@ -9,7 +9,7 @@ jobs:
       steps:
         - name: Checkout repository
           uses: actions/checkout@v2
-  
+
         - name: Add "needs review" label if no reviewers or assignees
           uses: actions/github-script@v6
           with:
@@ -27,7 +27,6 @@ jobs:
                   labels: ['Review Needed']
                 });
               }
-
 
     mark-submissions:
         runs-on: ubuntu-latest
