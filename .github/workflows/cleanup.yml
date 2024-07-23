@@ -1,11 +1,35 @@
 name: Cleanup Pull Requests
 on:
-  push:
-      branches:
-          - main
+    pull_request:
+      types: [opened, edited, ready_for_review]
       
 jobs:
-    mark-tickets:
+    label: 
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v2
+  
+        - name: Add "needs review" label if no reviewers or assignees
+          uses: actions/github-script@v6
+          with:
+            script: |
+              const { context, github } = require('@actions/github');
+              const pr = context.payload.pull_request;
+              const owner = context.repo.owner;
+              const repo = context.repo.repo;
+  
+              // Check if there are no reviewers and no assignees
+              if (pr.requested_reviewers.length === 0 && pr.assignees.length === 0) {
+                await github.issues.addLabels({
+                  owner,
+                  repo,
+                  issue_number: pr.number,
+                  labels: ['Review Needed']
+                });
+              }
+
+    mark-submissions:
         runs-on: ubuntu-latest
         permissions: 
           pull-requests: write
