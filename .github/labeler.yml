@@ -1,12 +1,16 @@
 Invalid:
-  - 'projects/**/*'
-  - '!/*'
-    
+- all:
+  - changed-files:
+    - any-glob-to-any-file: 'projects/**/*'
+    - all-globs-to-any-file: '*'
+
 # Add 'Submission' label to any changes within '/projects' folder or any subfolders
 Submission:
-  - 'projects/**/*'
+- changed-files:
+  - all-globs-to-any-file: ['projects/**', '!/*']
 
 Dev:
 - all:
   - changed-files:
-    - all-globs-to-any-file: ['!projects/**', '!*gerber*']
+    - any-glob-to-any-file: '!projects/**'
+    - all-globs-to-any-file: '!/*'
